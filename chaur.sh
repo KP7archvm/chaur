@@ -30,8 +30,27 @@ echo "Now lets update the system"
 sudo pacman -Syu
 fi
 
-echo "Installing the specified packages"
-sudo pacman -Syu htop vivaldi-snapshot octopi kate gimp onlyoffice-bin fish neofetch brave-nightly-bin qbittorrent ventoy-bin grub-customizer freedownloadmanager discord-canary obs-studio vlc qdirstat
+#CREATE A FUNCTION TO MAKE THESE INSTALLATIONS OPITIONAL AND ADD MULTIPLE INSTALLATION PROFILES
+echo "Do you want to install the pre-specified software packages? Y or N"
+read inp
+if $inp -eq "Y" or "y"
+then 
+echo "Which installation profile do you wanna install?"
+echo " 1 - All in One - Complete Software Package "
+echo " 2 - Virtual Machine / Minimal"
+read installprofile
+case $installprofile in
+1) echo "Installing the specified packages"
+sudo pacman -Syu htop neofetch konsole vivaldi-snapshot octopi kate gimp onlyoffice-bin fish neofetch qbittorrent ventoy-bin grub-customizer freedownloadmanager discord-canary obs-studio vlc qdirstat okular vscodium
+
+2) echo "Installing Minimal Profile"
+sudo pacman -Syu htop neofetch brave-nightly-bin octopi kate okular onlyoffice-bin vscodium
+
+esac
+
+else
+echo "You dont wanna installing anything? Aight its fine. Just whatever bro."
+fi
 
 #Now to add a directory to the PATH variable thats accessible without sudo and is in the home directory
 cd
