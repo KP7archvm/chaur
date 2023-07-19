@@ -30,27 +30,36 @@ echo "Now lets update the system"
 sudo pacman -Syu
 fi
 
-#CREATE A FUNCTION TO MAKE THESE INSTALLATIONS OPITIONAL AND ADD MULTIPLE INSTALLATION PROFILES
-echo "Do you want to install the pre-specified software packages? Y or N"
-read inp
-if $inp -eq "Y" or "y"
-then 
-echo "Which installation profile do you wanna install?"
-echo " 1 - All in One - Complete Software Package "
-echo " 2 - Virtual Machine / Minimal"
-read installprofile
-case $installprofile in
-1) echo "Installing the specified packages"
-sudo pacman -Syu htop neofetch konsole vivaldi-snapshot octopi kate gimp onlyoffice-bin fish neofetch qbittorrent ventoy-bin grub-customizer freedownloadmanager discord-canary obs-studio vlc qdirstat okular vscodium
+#Software installation profiles (premade)
+echo "Do you wish to install any of the specified app profiles?"
+echo "1. KP's Desktop Linux software profile"
+echo "2. VM or Dev software profile"
+echo "3. Stable Desktop for avg user"
+echo "4. Continue without installing any applications"
+echo "Enter your selected profile's responding number"
+read softpro
 
-2) echo "Installing Minimal Profile"
-sudo pacman -Syu htop neofetch brave-nightly-bin octopi kate okular onlyoffice-bin vscodium
-
+case $softpro in
+1)  sudo pacman -Syu htop vivaldi-snapshot octopi kate gimp onlyoffice-bin fish neofetch brave-nightly-bin qbittorrent ventoy-bin grub-customizer freedownloadmanager discord-canary obs-studio vlc qdirstat ;;
+2)  sudo pacman -Syu htop kate fish neofetch ;;
+3) sudo pacman -Syu brave-bin onlyoffice-bin vlc okular ;;
+4)  echo "Continuing without installing any softwares." ;;
 esac
 
+# Custom packages install
+echo "Do you wish to install any other packages? y or n?"
+read pacinst
+
+if [[ $pacinst == "y" || $pacinst == "Y" ]]; then
+    echo "Name all the packages you wanna install with spaces in between"
+    read packs
+    sudo pacman -Syu $packs
+elif [[ $pacinst == "n" || $pacinst == "N" ]]; then
+    echo "OK. Continuing the script."
 else
-echo "You dont wanna installing anything? Aight its fine. Just whatever bro."
+    echo "Invalid choice. Continuing the script."
 fi
+
 
 #Now to add a directory to the PATH variable thats accessible without sudo and is in the home directory
 cd
